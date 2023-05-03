@@ -1,4 +1,6 @@
+const Meal = require('../models/meals.models');
 const Order = require('../models/orders.model');
+const Restaurant = require('../models/restaurants.model');
 const User = require('../models/users.models');
 const catchAsync = require('../utils/catchAsync');
 
@@ -7,9 +9,23 @@ exports.findAll = catchAsync(async (req, res, next) => {
     where: {
       status: 'active',
     },
+    attributes: { exclude: ['status', 'createdAt', 'updatedAt'] },
     include: [
       {
         model: Order,
+        attributes: { exclude: ['status', 'createdAt', 'updatedAt'] },
+        include: [
+          {
+            model: Meal,
+            attributes: ['name', 'price'],
+            include: [
+              {
+                model: Restaurant,
+                attributes: { exclude: ['status', 'createdAt', 'updatedAt'] },
+              },
+            ],
+          },
+        ],
       },
     ],
   });

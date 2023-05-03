@@ -90,13 +90,7 @@ exports.createUpdateRestaurantReview = [
 
 // <--- MEAL --->
 
-exports.createMeal = [
-  body('name').notEmpty().withMessage('The name field is required'),
-  body('price').notEmpty().withMessage('The price field is required'),
-  validFields,
-];
-
-exports.updateMeal = [
+exports.createUpdateMeal = [
   body('name').notEmpty().withMessage('The name field is required'),
   body('price').notEmpty().withMessage('The price field is required'),
   validFields,

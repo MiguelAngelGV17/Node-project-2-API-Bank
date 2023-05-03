@@ -6,17 +6,27 @@ const catchAsync = require('../utils/catchAsync');
 
 exports.validIfOrderExist = catchAsync(async (req, res, next) => {
   const { id } = req.params;
+  const { sessionUser } = req;
 
+  const ordersUserOwner = await Order.findOne({
+    where: {
+      userId: sessionUser.id,
+    },
+  });
+
+  if (!ordersUserOwner) {
+    return next(
+      new AppError(
+        `User with id: ${sessionUser.id} is not the owner of current order`
+      )
+    );
+  }
   const order = await Order.findOne({
     where: {
       id,
+      userId: sessionUser.id,
       status: 'active',
     },
-    include: [
-      {
-        model: User,
-      },
-    ],
   });
 
   if (!order) {
@@ -30,6 +40,8 @@ exports.validIfOrderExist = catchAsync(async (req, res, next) => {
 exports.validIfExistMealForOrder = catchAsync(async (req, res, next) => {
   const { mealId } = req.body;
 
+  console.log(mealId);
+
   const meal = await Meal.findOne({
     where: {
       id: mealId,
@@ -37,8 +49,9 @@ exports.validIfExistMealForOrder = catchAsync(async (req, res, next) => {
     },
   });
 
+  console.log(meal);
   if (!meal) {
-    return next(new AppError(`Meal with id: ${id} not found`));
+    return next(new AppError(`Meal with id: ${mealId} not found`));
   }
 
   req.meal = meal;

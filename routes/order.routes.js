@@ -22,8 +22,8 @@ router.post(
 router.get('/me', orderController.findMe);
 
 router
-  .route('/:id', orderMiddleware.validIfOrderExist)
-  .patch(orderController.update)
+  .route('/:id')
+  .patch(orderMiddleware.validIfOrderExist, orderController.update)
   .delete(orderController.delete);
 
 module.exports = router;

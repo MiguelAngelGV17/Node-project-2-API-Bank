@@ -1,4 +1,5 @@
 const Meal = require('../models/meals.models');
+const Restaurant = require('../models/restaurants.model');
 const catchAsync = require('../utils/catchAsync');
 
 exports.create = catchAsync(async (req, res, next) => {
@@ -22,6 +23,13 @@ exports.findAll = catchAsync(async (req, res, next) => {
     where: {
       status: 'active',
     },
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+    include: [
+      {
+        model: Restaurant,
+        attributes: { exclude: ['status', 'createdAt', 'updatedAt'] },
+      },
+    ],
   });
   return res.status(200).json({
     status: 'Success',

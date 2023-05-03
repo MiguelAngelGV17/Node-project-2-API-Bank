@@ -1,4 +1,6 @@
+const Meal = require('../models/meals.models');
 const Order = require('../models/orders.model');
+const Restaurant = require('../models/restaurants.model');
 const catchAsync = require('../utils/catchAsync');
 
 exports.create = catchAsync(async (req, res, next) => {
@@ -22,11 +24,21 @@ exports.create = catchAsync(async (req, res, next) => {
 exports.findMe = catchAsync(async (req, res, next) => {
   const { sessionUser } = req;
 
-  const order = await Order.findOne({
+  const order = await Order.findAll({
     where: {
       userId: sessionUser.id,
       status: 'active',
     },
+    include: [
+      {
+        model: Meal,
+        include: [
+          {
+            model: Restaurant,
+          },
+        ],
+      },
+    ],
   });
 
   return res.status(200).json({

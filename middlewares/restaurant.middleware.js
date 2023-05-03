@@ -32,7 +32,7 @@ exports.validRestaurantForReview = catchAsync(async (req, res, next) => {
   });
 
   if (!restaurant) {
-    return next(new AppError(`Restaurant with id: ${id} not found`));
+    return next(new AppError(`Restaurant with id: ${restaurantId} not found`));
   }
 
   req.restaurant = restaurant;

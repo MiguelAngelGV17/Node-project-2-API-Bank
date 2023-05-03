@@ -13,7 +13,6 @@ const restaurantRouter = require('./routes/restaurant.routes');
 const orderRouter = require('./routes/order.routes');
 const mealRouter = require('./routes/meal.routes');
 const userRouter = require('./routes/user.routes');
-const authRouter = require('./routes/auth.routes');
 
 const app = express();
 const limiter = rateLimit({
@@ -35,7 +34,6 @@ app.use(hpp());
 app.use('/api/v1', limiter);
 
 // Routes
-// app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/meals', mealRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/orders', orderRouter);

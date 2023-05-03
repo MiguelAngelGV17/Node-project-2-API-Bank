@@ -19,11 +19,11 @@ router
   .route('/:id')
   .post(
     restaurantMiddleware.validIfRestaurantExist,
-    validationMiddleware.createMeal,
+    validationMiddleware.createUpdateMeal,
     mealController.create
   )
   .patch(
-    validationMiddleware.updateMeal,
+    validationMiddleware.createUpdateMeal,
     mealMiddleware.validIfMealExist,
     mealController.update
   )
